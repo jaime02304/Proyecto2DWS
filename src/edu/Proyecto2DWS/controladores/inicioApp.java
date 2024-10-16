@@ -22,6 +22,8 @@ public class inicioApp {
 		 
 		menuInterfaz mi = new menuImplementacion();
 		usuariosInterfaz usu = new usuariosImplementacion();
+		usuarioControladores usuC = new usuarioControladores();
+		clubControladores clubC  = new clubControladores();
 		
 		//Cargas iniciales
 		usu.cargaInicial(fichero);
@@ -38,44 +40,10 @@ public class inicioApp {
 					cerrarMenu = true;
 					break;
 				case 1:
-					System.out.println("Menu Usuario");
-					switch (opcionMenusesPequenios = mi.menuUsuario()) {
-					case 0:
-						System.out.println("A continuacion volvera al menu principal");
-						break;
-					case 1:
-						// Registrar usuarios
-						break;
-					case 2:
-						// Borrar usuario
-						break;
-					case 3:
-						// Modificar usuario
-						break;
-					default:
-						System.out.println("No has elegido ninguna opcion valida, se le devolvera al menu principal");
-						break;
-					}
+					usuC.procedimientoUsuarios();
 					break;
 				case 2:
-					System.out.println("Menu Club");
-					switch (opcionMenusesPequenios = mi.menuClub()) {
-					case 0:
-						System.out.println("A continuacion volvera al menu principal");
-						break;
-					case 1:
-						// Dar alta Club
-						break;
-					case 2:
-						// Borrar Club
-						break;
-					case 3:
-						// Modificar Club
-						break;
-					default:
-						System.out.println("No has elegido ninguna opcion valida, se le devolvera al menu principal");
-						break;
-					}
+					clubC.procedimientoClub();
 					break;
 				default:
 					System.out.println(

@@ -95,7 +95,7 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
 			usuario = propiedades.getProperty("usuario");
-			contrasenia = propiedades.getProperty("contrasenia");
+			contrasenia = propiedades.getProperty("contrasenia2");
 			puerto = propiedades.getProperty("puerto");
 			host = propiedades.getProperty("host");
 			db = propiedades.getProperty("db");
