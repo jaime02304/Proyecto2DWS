@@ -2,12 +2,15 @@ package edu.Proyecto2DWS.servicios;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import edu.Proyecto2DWS.controladores.inicioApp;
 
 /**
  * Implementacion que implementa la interfaz de conexion
@@ -17,12 +20,13 @@ import java.util.Properties;
 
 public class conexioConPostgresImplementacion implements conexionInterfaz {
 
-	public Connection generaConexion() {
+	public Connection generaConexion(String fichero) {
 		Connection conexion = null;
 		String[] parametrosDeConexxion = configuraConexion();// Aqui se pone la url,el usuario y la contraseña
 
 		if (!parametrosDeConexxion[2].isEmpty()) {
 			try {
+				PrintWriter escritor = new PrintWriter(new FileWriter(fichero,true));
 				// Esto se necesita para utilizar el driver de postgres y el texto se puede
 				// sacar con ayuda de internet
 				Class.forName("org.postgresql.Driver");
@@ -42,10 +46,11 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 				
 				// Aqui pondra si es valida es verdadero escribe la primera opcion sin embargo
 				// si es false se pondra la 2º opcion				
-				System.out.println(esValida
+				escritor.println((esValida
 						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida"
-						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida");
-
+						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida")
+);
+				escritor.close();
 				// Esta parte es por si da un error de cada clase
 			} catch (ClassNotFoundException cnfe) {
 				System.err.println(
@@ -57,7 +62,11 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 						"[ERROR-ConexionPostgresqlImplementacion-generaConexion] Error en conexión a PostgreSQL ("
 								+ parametrosDeConexxion[0] + "): " + sqle);
 				conexion = null;
-			}
+			}catch (IOException ioe) {
+				System.err.println(
+						"[ERROR-ConexionPostgresqlImplementacion-generaConexion] Error en la escritura a fichero ("
+								+ parametrosDeConexxion[0] + "): " + ioe);
+				conexion = null;			}
 		}
 		return conexion;
 	}

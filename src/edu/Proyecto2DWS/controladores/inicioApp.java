@@ -12,12 +12,19 @@ import edu.Proyecto2DWS.servicios.usuariosInterfaz;
 
 public class inicioApp {
 
-	public static Scanner sc = new Scanner(System.in);
 	public static List<usuarioDtos> listaDeUsuarios = new ArrayList<usuarioDtos>();
-
+	public static Scanner sc = new Scanner(System.in);
+	
 	public static void main(String[] args) {
+		
+		 String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+
+		 
 		menuInterfaz mi = new menuImplementacion();
 		usuariosInterfaz usu = new usuariosImplementacion();
+		
+		//Cargas iniciales
+		usu.cargaInicial(fichero);
 
 		byte opcionMenu;
 		byte opcionMenusesPequenios;
@@ -37,7 +44,7 @@ public class inicioApp {
 						System.out.println("A continuacion volvera al menu principal");
 						break;
 					case 1:
-						usu.cargaInicial();
+						// Registrar usuarios
 						break;
 					case 2:
 						// Borrar usuario

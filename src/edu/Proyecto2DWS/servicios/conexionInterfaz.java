@@ -12,5 +12,5 @@ public interface conexionInterfaz {
 	 * Metodo que genera la conexion y la devuelve
 	 * @return
 	 */
-	public Connection generaConexion();
+	public Connection generaConexion(String fichero);
 }

@@ -13,7 +13,7 @@ public class menuImplementacion implements menuInterfaz {
 		System.out.println("Opcion 0. Cerrar menu");
 		System.out.println("Opcion 1. Menu Usuarios");
 		System.out.println("Opcion 2. Menu Clubes");
-		byte opcion = inicioApp.sc.nextByte();
+		byte opcion =inicioApp.sc.nextByte();
 		return opcion;
 	}
 
@@ -27,7 +27,6 @@ public class menuImplementacion implements menuInterfaz {
 		return opcion;
 	}
 
-	@Override
 	public byte menuClub() {
 		System.out.println("Elija una opcion por favor");
 		System.out.println("Opcion 0. Volver al menu principal");

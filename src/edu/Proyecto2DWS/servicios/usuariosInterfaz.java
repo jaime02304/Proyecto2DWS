@@ -2,6 +2,6 @@ package edu.Proyecto2DWS.servicios;
 
 public interface usuariosInterfaz {
 	
-	public void cargaInicial();
+	public void cargaInicial(String fichero);
 
 }
