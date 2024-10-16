@@ -17,7 +17,8 @@ public class inicioApp {
 	
 	public static void main(String[] args) {
 		
-		 String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		//Cambiar la ruta
+		 String fichero = "D:\\ProyectosDWS\\ProyectoCasa\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
 
 		 
 		menuInterfaz mi = new menuImplementacion();

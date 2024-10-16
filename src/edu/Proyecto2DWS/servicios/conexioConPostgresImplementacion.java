@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import edu.Proyecto2DWS.controladores.inicioApp;
-
 /**
  * Implementacion que implementa la interfaz de conexion
  * 
@@ -88,8 +86,9 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 
 		try {
 			// Aqui se coge los dato del fichero de propiedades
+			//cambiar la ruta
 			propiedades.load(new FileInputStream(
-					"C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
+					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
 			
 			
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
