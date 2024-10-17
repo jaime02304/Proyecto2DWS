@@ -27,10 +27,10 @@ public class usuarioControladores {
 				usu.darAlta();
 				break;
 			case 2:
-				// Borrar usuario
+				usu.eliminarUsu();
 				break;
 			case 3:
-				// Modificar usuario
+				usu.modificarUsuario();
 				break;
 			default:
 				System.out.println("No has elegido ninguna opcion valida, vuelve a intentarlode nuevo.");

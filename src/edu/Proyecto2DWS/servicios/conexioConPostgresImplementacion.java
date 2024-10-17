@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 /**
@@ -20,7 +21,8 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 
 	public Connection generaConexion() {
 		//Cambiar la ruta
-		 String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		 String fichero = "D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		 LocalDateTime fechaInstante = LocalDateTime.now();
 
 		Connection conexion = null;
 		String[] parametrosDeConexxion = configuraConexion();// Aqui se pone la url,el usuario y la contraseña
@@ -48,8 +50,8 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 				// Aqui pondra si es valida es verdadero escribe la primera opcion sin embargo
 				// si es false se pondra la 2º opcion				
 				escritor.println((esValida
-						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida"
-						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida")
+						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida" + fechaInstante
+						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida" + fechaInstante)
 );
 				escritor.close();
 				// Esta parte es por si da un error de cada clase
@@ -91,13 +93,13 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 			// Aqui se coge los dato del fichero de propiedades
 			//cambiar la ruta
 			propiedades.load(new FileInputStream(
-					"C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
+					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
 			
 			
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
 			usuario = propiedades.getProperty("usuario");
-			contrasenia = propiedades.getProperty("contrasenia");
+			contrasenia = propiedades.getProperty("contrasenia2");
 			puerto = propiedades.getProperty("puerto");
 			host = propiedades.getProperty("host");
 			db = propiedades.getProperty("db");
