@@ -17,8 +17,6 @@ public class inicioApp {
 	
 	public static void main(String[] args) {
 		
-		//Cambiar la ruta
-		 String fichero = "D:\\ProyectosDWS\\ProyectoCasa\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
 
 		 
 		menuInterfaz mi = new menuImplementacion();
@@ -27,14 +25,14 @@ public class inicioApp {
 		clubControladores clubC  = new clubControladores();
 		
 		//Cargas iniciales
-		usu.cargaInicial(fichero);
+		usu.cargaInicial();
 
 		byte opcionMenu;
 		byte opcionMenusesPequenios;
 		boolean cerrarMenu = false;
 
 		try {
-			System.out.println("Bienvenido a la aplicacion del registro de Usuarios y Clubes");
+			System.out.println("------- Bienvenido a la aplicacion del registro de Usuarios y Clubes -------");
 			do {
 				switch (opcionMenu = mi.menuPrincipal()) {
 				case 0:

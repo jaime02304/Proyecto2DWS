@@ -15,7 +15,7 @@ public class clubControladores {
 		boolean cerrarMenu = false;
 
 		do {
-			System.out.println("Menu Club");
+			System.out.println("------- Menu Club -------");
 			switch (opcionMenusesPequenios = mi.menuClub()) {
 			case 0:
 				System.out.println("A continuacion volvera al menu principal");

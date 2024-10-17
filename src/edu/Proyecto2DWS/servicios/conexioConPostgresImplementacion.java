@@ -18,7 +18,10 @@ import java.util.Properties;
 
 public class conexioConPostgresImplementacion implements conexionInterfaz {
 
-	public Connection generaConexion(String fichero) {
+	public Connection generaConexion() {
+		//Cambiar la ruta
+		 String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+
 		Connection conexion = null;
 		String[] parametrosDeConexxion = configuraConexion();// Aqui se pone la url,el usuario y la contraseña
 
@@ -88,13 +91,13 @@ public class conexioConPostgresImplementacion implements conexionInterfaz {
 			// Aqui se coge los dato del fichero de propiedades
 			//cambiar la ruta
 			propiedades.load(new FileInputStream(
-					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
+					"C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
 			
 			
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
 			usuario = propiedades.getProperty("usuario");
-			contrasenia = propiedades.getProperty("contrasenia2");
+			contrasenia = propiedades.getProperty("contrasenia");
 			puerto = propiedades.getProperty("puerto");
 			host = propiedades.getProperty("host");
 			db = propiedades.getProperty("db");

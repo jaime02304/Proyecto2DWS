@@ -37,4 +37,16 @@ public class menuImplementacion implements menuInterfaz {
 		return opcion;
 	}
 
+	public byte menuModificarUsuario() {
+		System.out.println("Elija una opcion por favor");
+		System.out.println("Opcion 0. Volver");
+		System.out.println("Opcion 1. Modificar nombre");
+		System.out.println("Opcion 2. Modificar apellidos");
+		System.out.println("Opcion 3. Modificar su club");
+		System.out.println("Opcion 4. Modificar email");
+		System.out.println("Opcion 5. Modificar contaseña");
+		byte opcion = inicioApp.sc.nextByte();
+		return opcion;
+	}
+
 }

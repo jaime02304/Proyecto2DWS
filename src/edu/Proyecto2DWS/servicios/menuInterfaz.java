@@ -26,5 +26,13 @@ public interface menuInterfaz {
 	 * @return
 	 */
 	public byte menuClub();
+	
+	
+	/**
+	 * Menu que enseña lo que se puede modificar del usuario y guarda la respuesta que de el usuario
+	 * @author jpribio - 17/10/24
+	 * @return
+	 */
+	public byte menuModificarUsuario();
 
 }

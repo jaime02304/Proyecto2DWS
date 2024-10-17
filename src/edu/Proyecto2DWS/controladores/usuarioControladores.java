@@ -9,6 +9,7 @@ public class usuarioControladores {
 
 	public void procedimientoUsuarios() {
 
+
 		menuInterfaz mi = new menuImplementacion();
 		usuariosInterfaz usu = new usuariosImplementacion();
 
@@ -16,14 +17,14 @@ public class usuarioControladores {
 		boolean cerrarMenu = false;
 
 		do {
-			System.out.println("Menu Usuario");
+			System.out.println("------- Menu Usuario -------");
 			switch (opcionMenusesPequenios = mi.menuUsuario()) {
 			case 0:
 				System.out.println("A continuacion volvera al menu principal");
 				cerrarMenu=true;
 				break;
 			case 1:
-				// Registrar usuarios
+				usu.darAlta();
 				break;
 			case 2:
 				// Borrar usuario
