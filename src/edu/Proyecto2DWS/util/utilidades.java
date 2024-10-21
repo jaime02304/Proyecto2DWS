@@ -10,10 +10,11 @@ import java.util.Base64;
 
 import edu.Proyecto2DWS.controladores.inicioApp;
 import edu.Proyecto2DWS.servicios.conexioConPostgresImplementacion;
+import edu.Proyecto2DWS.servicios.conexionConMariaDBImplementacion;
 import edu.Proyecto2DWS.servicios.conexionInterfaz;
 
 public class utilidades {
-		conexionInterfaz ci = new conexioConPostgresImplementacion();
+		conexionInterfaz ci = new conexionConMariaDBImplementacion();
 	
 	public long idAutonumericoUsu() {
 		int tamanio = inicioApp.listaDeUsuarios.size();

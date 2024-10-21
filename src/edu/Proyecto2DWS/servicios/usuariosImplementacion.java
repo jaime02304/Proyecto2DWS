@@ -13,11 +13,11 @@ import edu.Proyecto2DWS.util.utilidades;
 
 public class usuariosImplementacion implements usuariosInterfaz {
 	utilidades util = new utilidades();
-	conexionInterfaz ci = new conexioConPostgresImplementacion();
+	conexionInterfaz ci = new conexionConMariaDBImplementacion();
 	menuInterfaz mi = new menuImplementacion();
 
 	public void cargaInicial() {
-		conexionInterfaz ci = new conexioConPostgresImplementacion();
+		conexionInterfaz  ci = new conexionConMariaDBImplementacion();
 
 		Connection conexion = null;
 		Statement declaracionSQL = null; // Statement sirve para poder hacer la declaracion de la query
@@ -96,27 +96,28 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			// Pide el DNI
 			System.out.println("Dame el DNi");
 			String dNIString = inicioApp.sc.next();
-			
+
 			conexion = ci.generaConexion();
-			declaracionSQLEliminar=conexion.prepareStatement(queriCondicion);
+			declaracionSQLEliminar = conexion.prepareStatement(queriCondicion);
 			declaracionSQLEliminar.setString(1, dNIString);
 			resultadoSet = declaracionSQLEliminar.executeQuery();
-			if(resultadoSet.next()) {
+			if (resultadoSet.next()) {
 				declaracionSQLEliminar = conexion.prepareStatement(queryString);
 				declaracionSQLEliminar.setString(1, dNIString);
 				resultadoSet = declaracionSQLEliminar.executeQuery();
 				System.out.println("Se ha eliminado al usuario correctamente.");
-			}else {
+			} else {
 				System.err.println("No se ha encontrao a ningun usuario  con este DNI");
 			}
-			
+
 			// Cerrar todo
 			conexion.close();
 			declaracionSQLEliminar.close();
 			resultadoSet.close();
 
 		} catch (Exception e) {
-			System.err.println("Ha ocurrido un error a la hora de borrar el usuario, intentelo mas tarde por favor" + e);
+			System.err
+					.println("Ha ocurrido un error a la hora de borrar el usuario, intentelo mas tarde por favor" + e);
 		}
 	}
 
@@ -165,7 +166,8 @@ public class usuariosImplementacion implements usuariosInterfaz {
 						queryModificar = "UPDATE rs_motera.usuarios SET nombre_del_club = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, nombreClubNuevo);
 						declaracionSQLModificar.setString(2, dniString);
-						System.out.println("El nombre del club al que  pertenece el usuario se ha modificado correctamente");
+						System.out.println(
+								"El nombre del club al que  pertenece el usuario se ha modificado correctamente");
 						break;
 					case 4:
 						System.out.println("Dame el nuevo nombre para el usario: ");
@@ -193,13 +195,14 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			} else {
 				System.err.println("No hay ningun usuario con este DNI.");
 			}
-			
-			//cerrar todo
+
+			// cerrar todo
 			conexion.close();
 			declaracionSQLModificar.close();
 			resultadoSet.close();
 		} catch (Exception e) {
-			System.err.println("Ha habido un error al modificar un uruario, por favor intentelo de nuevo mas tarde" + e);
+			System.err
+					.println("Ha habido un error al modificar un uruario, por favor intentelo de nuevo mas tarde" + e);
 		}
 
 	}
@@ -233,7 +236,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 					System.out.println("Ya existe un usuario con este DNI.");
 					verificarUsuario = false;
 					break;
-				} 
+				}
 			}
 		} while (!verificarUsuario);
 		System.out.println("Dame su email: ");
@@ -258,28 +261,29 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		Connection conexion = null;
 		PreparedStatement declaracion = null;
 		ResultSet resultadoSet = null;
-		String queryString = "SELECT * FROM rs_motera.club WHERE nombre_usu = ?"; 
+		String queryString = "SELECT * FROM rs_motera.club WHERE nombre_usu = ?";
 		String nombreClubString = "";
 		System.out.println("¿Perteneces a algun club? si/no");
 		String afirmacion = inicioApp.sc.next();
-		if(afirmacion.equalsIgnoreCase("si")) {
+		if (afirmacion.equalsIgnoreCase("si")) {
 			try {
 				System.out.println("Dame el nombre del club al que perteneces");
 				nombreClubString = inicioApp.sc.next();
-				 conexion = ci.generaConexion();
+				conexion = ci.generaConexion();
 				declaracion = conexion.prepareStatement(queryString);
 				declaracion.setString(1, nombreClubString);
 				resultadoSet = declaracion.executeQuery();
-				
+
 				conexion.close();
 				declaracion.close();
 				resultadoSet.close();
-				
+
 			} catch (SQLException e) {
-				System.err.println("Ha ocurrido un error al buscar el nombre del club, por favor intentelo mas tarde" + e);
+				System.err.println(
+						"Ha ocurrido un error al buscar el nombre del club, por favor intentelo mas tarde" + e);
 			}
-		}else {
-			nombreClubString=" ";
+		} else {
+			nombreClubString = " ";
 		}
 		return nombreClubString;
 	}

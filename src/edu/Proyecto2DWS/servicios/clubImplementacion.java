@@ -11,7 +11,7 @@ import edu.Proyecto2DWS.util.utilidades;
 
 public class clubImplementacion implements clubInterfaz {
 
-	conexionInterfaz ci = new conexioConPostgresImplementacion();
+	conexionInterfaz ci = new conexionConMariaDBImplementacion();
 	utilidades util = new utilidades();
 
 	/*-----------------------------------------------------*/

@@ -17,66 +17,66 @@ import java.util.Properties;
  * @author jpribio - 10/10/2024
  */
 
-public class conexioConPostgresImplementacion {
+public class conexionConMariaDBImplementacion implements conexionInterfaz {
 
+	@Override
 	public Connection generaConexion() {
-		//Cambiar la ruta
-		 String fichero = "D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
-		 LocalDateTime fechaInstante = LocalDateTime.now();
+		// Cambiar la ruta
+		String fichero = "D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		LocalDateTime fechaInstante = LocalDateTime.now();
 
 		Connection conexion = null;
 		String[] parametrosDeConexxion = configuraConexion();// Aqui se pone la url,el usuario y la contraseña
 
 		if (!parametrosDeConexxion[2].isEmpty()) {
 			try {
-				PrintWriter escritor = new PrintWriter(new FileWriter(fichero,true));
+				PrintWriter escritor = new PrintWriter(new FileWriter(fichero, true));
 				// Esto se necesita para utilizar el driver de postgres y el texto se puede
 				// sacar con ayuda de internet
-				Class.forName("org.postgresql.Driver");
+				Class.forName("org.mariadb.jdbc.Driver");
 
-				// Con esto se hace la conexion a la BDD				
+				// Con esto se hace la conexion a la BDD
 				conexion = DriverManager.getConnection(parametrosDeConexxion[0], parametrosDeConexxion[1],
 						parametrosDeConexxion[2]);
 
-				// Ahora se valida para saber que no da errores			
+				// Ahora se valida para saber que no da errores
 				boolean esValida = conexion.isValid(50000); // isValid da true si se conecta en menos del tiempo
 															// necesario
 
-				// Si da falso porque no se haya conectado				
+				// Si da falso porque no se haya conectado
 				if (esValida == false) {
 					conexion = null;
 				}
-				
+
 				// Aqui pondra si es valida es verdadero escribe la primera opcion sin embargo
-				// si es false se pondra la 2º opcion				
+				// si es false se pondra la 2º opcion
 				escritor.println((esValida
-						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida" + fechaInstante
-						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida" + fechaInstante)
-);
+						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida"
+								+ fechaInstante
+						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida"
+								+ fechaInstante));
 				escritor.close();
 				// Esta parte es por si da un error de cada clase
 			} catch (ClassNotFoundException cnfe) {
 				System.err.println(
-						"[ERROR-ConexionPostgresqlImplementacion-generaConexion] Error en registro driver PostgreSQL: "
-								+ cnfe);
+						"[ERROR-ConexionConMariaDBlImplementacion-configuracionConexion] Error en registro driver Mariadb: "
+								+ parametrosDeConexxion[0] + "): " + cnfe);
 				conexion = null;
 			} catch (SQLException sqle) {
 				System.err.println(
-						"[ERROR-ConexionPostgresqlImplementacion-generaConexion] Error en conexión a PostgreSQL ("
+						"[ERROR-ConexionConMariaDBlImplementacion-configuracionConexion] Error en conexión a MariaDb ("
 								+ parametrosDeConexxion[0] + "): " + sqle);
 				conexion = null;
-			}catch (IOException ioe) {
+			} catch (IOException ioe) {
 				System.err.println(
-						"[ERROR-ConexionPostgresqlImplementacion-generaConexion] Error en la escritura a fichero ("
+						"[ERROR-ConexionConMariaDBlImplementacion-configuracionConexion] Error en la escritura a fichero ("
 								+ parametrosDeConexxion[0] + "): " + ioe);
-				conexion = null;			}
+				conexion = null;
+			}
 		}
 		return conexion;
 	}
 
-	
-	
-	
 	/**
 	 * Este metodo privado realiza la conexio de los parametros y obtiene un arra de
 	 * strring y obtiene la url,el usuario y la contraseña
@@ -91,19 +91,19 @@ public class conexioConPostgresImplementacion {
 
 		try {
 			// Aqui se coge los dato del fichero de propiedades
-			//cambiar la ruta
+			// cambiar la ruta
 			propiedades.load(new FileInputStream(
 					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
-			
-			
+
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
 			usuario = propiedades.getProperty("usuario");
-			contrasenia = propiedades.getProperty("contrasenia2");
+			contrasenia = propiedades.getProperty("contrasenia");
 			puerto = propiedades.getProperty("puerto");
 			host = propiedades.getProperty("host");
 			db = propiedades.getProperty("db");
 			url = propiedades.getProperty("url");
+
 
 			// Aqui escogemos lo que nos interesa y le damos el valor necesario en las
 			// posiciones deseadas para despues hacer la conexion
@@ -112,8 +112,10 @@ public class conexioConPostgresImplementacion {
 			parametrosConfiguracion[2] = contrasenia;
 
 		} catch (FileNotFoundException e) {
+
 			System.err.println(
-					"[ERROR-ConexionPostgresqlImplementacion-configuracionConexion] - Error al acceder al fichero propiedades de conexion.");
+					"[ERROR-ConexionConMariaDBlImplementacion-configuracionConexion] - Error al acceder al fichero propiedades de conexion.");
+
 			// Como ha dado un error damos un valor por defecto para que podamos controlarlo
 			// luego
 			parametrosConfiguracion[0] = "";
@@ -121,7 +123,7 @@ public class conexioConPostgresImplementacion {
 			parametrosConfiguracion[2] = "";
 		} catch (IOException e) {
 			System.err.println(
-					"[ERROR-ConexionPostgresqlImplementacion-configuracionConexion] - Error al acceder al fichero propiedades de conexion.");
+					"[ERROR-ConexionConMariaDBlImplementacion-configuracionConexion] - Error al acceder al fichero propiedades de conexion.");
 			parametrosConfiguracion[0] = "";
 			parametrosConfiguracion[1] = "";
 			parametrosConfiguracion[2] = "";
