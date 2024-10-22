@@ -22,7 +22,7 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 	@Override
 	public Connection generaConexion() {
 		// Cambiar la ruta
-		String fichero = "D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
 		LocalDateTime fechaInstante = LocalDateTime.now();
 
 		Connection conexion = null;
@@ -46,14 +46,15 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 				// Si da falso porque no se haya conectado
 				if (esValida == false) {
 					conexion = null;
+					System.out.println("No hay conexion");
 				}
 
 				// Aqui pondra si es valida es verdadero escribe la primera opcion sin embargo
 				// si es false se pondra la 2º opcion
 				escritor.println((esValida
-						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL válida"
+						? "[INFORMACIÓN-ConexionPostgresqlImplementacion-generaConexion] Conexión a MariaDB válida"
 								+ fechaInstante
-						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a PostgreSQL no válida"
+						: "[ERROR-ConexionPostgresqlImplementacion-generaConexion] Conexión a MariaDB no válida"
 								+ fechaInstante));
 				escritor.close();
 				// Esta parte es por si da un error de cada clase
@@ -93,7 +94,7 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 			// Aqui se coge los dato del fichero de propiedades
 			// cambiar la ruta
 			propiedades.load(new FileInputStream(
-					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
+					"C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
 
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
@@ -103,7 +104,6 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 			host = propiedades.getProperty("host");
 			db = propiedades.getProperty("db");
 			url = propiedades.getProperty("url");
-
 
 			// Aqui escogemos lo que nos interesa y le damos el valor necesario en las
 			// posiciones deseadas para despues hacer la conexion
