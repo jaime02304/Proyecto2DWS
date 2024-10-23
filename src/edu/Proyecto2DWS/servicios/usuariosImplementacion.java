@@ -22,7 +22,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		Connection conexion = null;
 		Statement declaracionSQL = null; // Statement sirve para poder hacer la declaracion de la query
 		ResultSet resultadoConsulta = null; // resultset sirve para conseguir el resultado de la consulta
-		String query = "SELECT * FROM \"rs_motera\".\"usuarios\";";
+		String query = "SELECT * FROM usuarios";
 
 		try {
 			// De genera la conexion
@@ -58,8 +58,8 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		// A partir de aqui empezaria con la creacion conexion
 		Connection conexion = null;
 		PreparedStatement declaracionSQLAlta = null;
-		ResultSet resultadoSet = null;
-		String query = "INSERT INTO rs_motera.usuarios (id_usu,nombre_usu,apellidos_usu,dni,nombre_del_club,email_usu,contrasenia_usu) VALUES (?,?,?,?,?,?,?)";
+		//ResultSet resultadoSet = null;
+		String query = "INSERT INTO usuarios (id_usu,nombre_usu,apellidos_usu,dni,nombre_del_club,email_usu,contrasenia_usu) VALUES (?,?,?,?,?,?,?)";
 		try {
 			// generar conexion
 			conexion = ci.generaConexion();
@@ -73,12 +73,17 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			declaracionSQLAlta.setString(6, usuario.getEmailUsu());
 			declaracionSQLAlta.setString(7, usuario.getContraseniaUsu());
 			// ejecuto el resultset
-			resultadoSet = declaracionSQLAlta.executeQuery();
-			System.out.println("El usuario se ha añadido correctamente.");
+			 int filasAfectadas = declaracionSQLAlta.executeUpdate();
+			    
+			    if (filasAfectadas > 0) {
+			        System.out.println("El usuario se ha añadido correctamente.");
+			    } else {
+			        System.out.println("No se insertó ningún usuario.");
+			    }
 			// Cierro todo
 			conexion.close();
 			declaracionSQLAlta.close();
-			resultadoSet.close();
+			//resultadoSet.close();
 
 		} catch (SQLException e) {
 			System.err.println("Ha ocurrido un error al insertar tus datos, por favor intentelo mas tarde." + e);
@@ -90,8 +95,8 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		Connection conexion = null;
 		PreparedStatement declaracionSQLEliminar = null;
 		ResultSet resultadoSet = null;
-		String queriCondicion = "SELECT * FROM rs_motera.usuarios WHERE dni = ?";
-		String queryString = "DELETE FROM rs_motera.usuarios WHERE dni = ?";
+		String queriCondicion = "SELECT * FROM usuarios WHERE dni = ?";
+		String queryString = "DELETE FROM usuarios WHERE dni = ?";
 		try {
 			// Pide el DNI
 			System.out.println("Dame el DNi");
@@ -126,7 +131,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		Connection conexion = null;
 		PreparedStatement declaracionSQLModificar = null;
 		ResultSet resultadoSet = null;
-		String queryCondicion = "SELECT * FROM rs_motera.usuarios WHERE dni = ?";
+		String queryCondicion = "SELECT * FROM usuarios WHERE dni = ?";
 		String queryModificar;
 		Boolean cerrarMenu = false;
 		System.out.println("Necesito que me de su DNI para verificar al usuario: ");
@@ -145,7 +150,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 					case 1:
 						System.out.println("Dame el nuevo nombre para el usario: ");
 						String nombreNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE rs_motera.usuarios SET nombre_usu = ? WHERE dni = ?";
+						queryModificar = "UPDATE usuarios SET nombre_usu = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, nombreNuevo);
 						declaracionSQLModificar.setString(2, dniString);
 						System.out.println("El nombre se ha modificado correctamente");
@@ -155,7 +160,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 						String apellido1 = inicioApp.sc.next();
 						System.out.println("Dame el nuevo apellido (el seguno) del usario: ");
 						String apellido2 = inicioApp.sc.next();
-						queryModificar = "UPDATE rs_motera.usuarios SET apellidos_usu = ? WHERE dni = ?";
+						queryModificar = "UPDATE usuarios SET apellidos_usu = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, apellido1.concat(" ").concat(apellido2));
 						declaracionSQLModificar.setString(2, dniString);
 						System.out.println("El apellido se ha modificado correctamente");
@@ -163,7 +168,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 					case 3:
 						System.out.println("Dame el nuevo nombre del club al que pertenece el usario: ");
 						String nombreClubNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE rs_motera.usuarios SET nombre_del_club = ? WHERE dni = ?";
+						queryModificar = "UPDATE usuarios SET nombre_del_club = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, nombreClubNuevo);
 						declaracionSQLModificar.setString(2, dniString);
 						System.out.println(
@@ -172,7 +177,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 					case 4:
 						System.out.println("Dame el nuevo nombre para el usario: ");
 						String emailNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE rs_motera.usuarios SET email_usu = ? WHERE dni = ?";
+						queryModificar = "UPDATE usuarios SET email_usu = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, emailNuevo);
 						declaracionSQLModificar.setString(2, dniString);
 						System.out.println("El email se ha modificado correctamente");
@@ -181,7 +186,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 						System.out.println("Dame el nuevo nombre para el usario: ");
 						String contraString = inicioApp.sc.next();
 						String codificada = util.encriptacion(contraString);
-						queryModificar = "UPDATE rs_motera.usuarios SET contrasenia_usu = ? WHERE dni = ?";
+						queryModificar = "UPDATE usuarios SET contrasenia_usu = ? WHERE dni = ?";
 						declaracionSQLModificar.setString(1, codificada);
 						declaracionSQLModificar.setString(2, dniString);
 						System.out.println("La contrasenia se ha modificado correctamente");
@@ -261,7 +266,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		Connection conexion = null;
 		PreparedStatement declaracion = null;
 		ResultSet resultadoSet = null;
-		String queryString = "SELECT * FROM rs_motera.club WHERE nombre_usu = ?";
+		String queryString = "SELECT * FROM club WHERE nombre_usu = ?";
 		String nombreClubString = "";
 		System.out.println("¿Perteneces a algun club? si/no");
 		String afirmacion = inicioApp.sc.next();
