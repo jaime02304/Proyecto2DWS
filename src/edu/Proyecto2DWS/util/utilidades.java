@@ -14,8 +14,8 @@ import edu.Proyecto2DWS.servicios.conexionConMariaDBImplementacion;
 import edu.Proyecto2DWS.servicios.conexionInterfaz;
 
 public class utilidades {
-		conexionInterfaz ci = new conexionConMariaDBImplementacion();
-	
+	conexionInterfaz ci = new conexionConMariaDBImplementacion();
+
 	public long idAutonumericoUsu() {
 		int tamanio = inicioApp.listaDeUsuarios.size();
 		long id;
@@ -27,9 +27,11 @@ public class utilidades {
 		}
 		return id;
 	}
-	
+
 	/**
-	 * Metodo que coge la primera posicion en una query que muestra los elementos de manera desdendente seguin el id y le suma 1 al id
+	 * Metodo que coge la primera posicion en una query que muestra los elementos de
+	 * manera desdendente seguin el id y le suma 1 al id
+	 * 
 	 * @author jaime - 17/10/24
 	 * @return
 	 */
@@ -40,38 +42,55 @@ public class utilidades {
 		String queriConsultaString = "SELECT * FROM rs_motera.club ORDER BY id_club DESC";
 		long id;
 		try {
-			conexion=ci.generaConexion();
-			declaraciones=conexion.prepareStatement(queriConsultaString);
-			resultados=declaraciones.executeQuery();
-			id=resultados.getLong(1) + 1;
+			conexion = ci.generaConexion();
+			declaraciones = conexion.prepareStatement(queriConsultaString);
+			resultados = declaraciones.executeQuery();
+			id = resultados.getLong(1) + 1;
 			conexion.close();
 			declaraciones.close();
 			resultados.close();
 			return id;
-			
+
 		} catch (SQLException e) {
 			return 0;
 		}
 	}
-	
-	
-	
-	
+
 	public String encriptacion(String contrasenia) {
-		 try {
-			   // Crear un objeto MessageDigest para SHA-256
-	            MessageDigest cambio = MessageDigest.getInstance("SHA-256");
-	            
-	            // Convertir la contraseña en bytes y calcular el hash
-	            byte[] hash = cambio.digest(contrasenia.getBytes());
-	            
-	            // Codificar el hash en Base64 y devolverlo como String
-	            return Base64.getEncoder().encodeToString(hash);
-	            
-	        } catch (NoSuchAlgorithmException e) {
-	            throw new RuntimeException("Error al encriptar la contraseña", e);
-	        }
-	    }
+		try {
+			// Crear un objeto MessageDigest para SHA-256
+			MessageDigest cambio = MessageDigest.getInstance("SHA-256");
+
+			// Convertir la contraseña en bytes y calcular el hash
+			byte[] hash = cambio.digest(contrasenia.getBytes());
+
+			// Codificar el hash en Base64 y devolverlo como String
+			return Base64.getEncoder().encodeToString(hash);
+
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Error al encriptar la contraseña", e);
+		}
 	}
 
-
+	public void condicionDeFilasAniadir(int filasAfectadas) {
+		if (filasAfectadas > 0) {
+			System.out.println("El usuario se ha añadido correctamente.");
+		} else {
+			System.out.println("No se insertó ningún usuario.");
+		}
+	}
+	public void condicionDeFilasEliminar(int filasAfectadas) {
+		if (filasAfectadas > 0) {
+			System.out.println("El usuario se ha eliminado correctamente.");
+		} else {
+			System.out.println("No se eliminó ningún usuario.");
+		}
+	}
+	public void condicionDeFilasModificar(int filasAfectadas) {
+		if (filasAfectadas > 0) {
+			System.out.println("El usuario se ha modificado correctamente.");
+		} else {
+			System.out.println("No se nodificó ningún usuario.");
+		}
+	}
+}

@@ -17,7 +17,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 	menuInterfaz mi = new menuImplementacion();
 
 	public void cargaInicial() {
-		conexionInterfaz  ci = new conexionConMariaDBImplementacion();
+		conexionInterfaz ci = new conexionConMariaDBImplementacion();
 
 		Connection conexion = null;
 		Statement declaracionSQL = null; // Statement sirve para poder hacer la declaracion de la query
@@ -58,7 +58,7 @@ public class usuariosImplementacion implements usuariosInterfaz {
 		// A partir de aqui empezaria con la creacion conexion
 		Connection conexion = null;
 		PreparedStatement declaracionSQLAlta = null;
-		//ResultSet resultadoSet = null;
+		// ResultSet resultadoSet = null;
 		String query = "INSERT INTO usuarios (id_usu,nombre_usu,apellidos_usu,dni,nombre_del_club,email_usu,contrasenia_usu) VALUES (?,?,?,?,?,?,?)";
 		try {
 			// generar conexion
@@ -73,17 +73,12 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			declaracionSQLAlta.setString(6, usuario.getEmailUsu());
 			declaracionSQLAlta.setString(7, usuario.getContraseniaUsu());
 			// ejecuto el resultset
-			 int filasAfectadas = declaracionSQLAlta.executeUpdate();
-			    
-			    if (filasAfectadas > 0) {
-			        System.out.println("El usuario se ha añadido correctamente.");
-			    } else {
-			        System.out.println("No se insertó ningún usuario.");
-			    }
+			int filasAfectadas = declaracionSQLAlta.executeUpdate();
+			util.condicionDeFilasAniadir(filasAfectadas);
 			// Cierro todo
 			conexion.close();
 			declaracionSQLAlta.close();
-			//resultadoSet.close();
+			// resultadoSet.close();
 
 		} catch (SQLException e) {
 			System.err.println("Ha ocurrido un error al insertar tus datos, por favor intentelo mas tarde." + e);
@@ -109,8 +104,9 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			if (resultadoSet.next()) {
 				declaracionSQLEliminar = conexion.prepareStatement(queryString);
 				declaracionSQLEliminar.setString(1, dNIString);
-				resultadoSet = declaracionSQLEliminar.executeQuery();
-				System.out.println("Se ha eliminado al usuario correctamente.");
+				int filasAfectadas = declaracionSQLEliminar.executeUpdate();
+				util.condicionDeFilasEliminar(filasAfectadas);
+
 			} else {
 				System.err.println("No se ha encontrao a ningun usuario  con este DNI");
 			}
@@ -141,62 +137,65 @@ public class usuariosImplementacion implements usuariosInterfaz {
 			declaracionSQLModificar = conexion.prepareStatement(queryCondicion);
 			declaracionSQLModificar.setString(1, dniString);
 			resultadoSet = declaracionSQLModificar.executeQuery();
-			if (resultadoSet.next()) {
-				do {
-					switch (mi.menuUsuario()) {
-					case 0:
-						cerrarMenu = true;
-						break;
-					case 1:
-						System.out.println("Dame el nuevo nombre para el usario: ");
-						String nombreNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE usuarios SET nombre_usu = ? WHERE dni = ?";
-						declaracionSQLModificar.setString(1, nombreNuevo);
-						declaracionSQLModificar.setString(2, dniString);
-						System.out.println("El nombre se ha modificado correctamente");
-						break;
-					case 2:
-						System.out.println("Dame el nuevo apellido (el primero) del usario: ");
-						String apellido1 = inicioApp.sc.next();
-						System.out.println("Dame el nuevo apellido (el seguno) del usario: ");
-						String apellido2 = inicioApp.sc.next();
-						queryModificar = "UPDATE usuarios SET apellidos_usu = ? WHERE dni = ?";
-						declaracionSQLModificar.setString(1, apellido1.concat(" ").concat(apellido2));
-						declaracionSQLModificar.setString(2, dniString);
-						System.out.println("El apellido se ha modificado correctamente");
-						break;
-					case 3:
-						System.out.println("Dame el nuevo nombre del club al que pertenece el usario: ");
-						String nombreClubNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE usuarios SET nombre_del_club = ? WHERE dni = ?";
-						declaracionSQLModificar.setString(1, nombreClubNuevo);
-						declaracionSQLModificar.setString(2, dniString);
-						System.out.println(
-								"El nombre del club al que  pertenece el usuario se ha modificado correctamente");
-						break;
-					case 4:
-						System.out.println("Dame el nuevo nombre para el usario: ");
-						String emailNuevo = inicioApp.sc.next();
-						queryModificar = "UPDATE usuarios SET email_usu = ? WHERE dni = ?";
-						declaracionSQLModificar.setString(1, emailNuevo);
-						declaracionSQLModificar.setString(2, dniString);
-						System.out.println("El email se ha modificado correctamente");
-						break;
-					case 5:
-						System.out.println("Dame el nuevo nombre para el usario: ");
-						String contraString = inicioApp.sc.next();
-						String codificada = util.encriptacion(contraString);
-						queryModificar = "UPDATE usuarios SET contrasenia_usu = ? WHERE dni = ?";
-						declaracionSQLModificar.setString(1, codificada);
-						declaracionSQLModificar.setString(2, dniString);
-						System.out.println("La contrasenia se ha modificado correctamente");
-						break;
-					default:
-						System.err.println("No has elegido ninguna opcion");
-						break;
-					}
-				} while (!cerrarMenu);
 
+			if (resultadoSet.next()) {
+				int filasAfectadas;
+				switch (mi.menuModificarUsuario()) {
+				case 0:
+					cerrarMenu = true;
+					break;
+				case 1:
+					System.out.println("Dame el nuevo nombre para el usario: ");
+					String nombreNuevo = inicioApp.sc.next();
+					queryModificar = "UPDATE usuarios SET nombre_usu = ? WHERE dni = ?";
+					declaracionSQLModificar.setString(1, nombreNuevo);
+					declaracionSQLModificar.setString(2, dniString);
+					filasAfectadas = declaracionSQLModificar.executeUpdate();
+					util.condicionDeFilasModificar(filasAfectadas);
+					break;
+				case 2:
+					System.out.println("Dame el nuevo apellido (el primero) del usario: ");
+					String apellido1 = inicioApp.sc.next();
+					System.out.println("Dame el nuevo apellido (el seguno) del usario: ");
+					String apellido2 = inicioApp.sc.next();
+					queryModificar = "UPDATE usuarios SET apellidos_usu = ? WHERE dni = ?";
+					declaracionSQLModificar.setString(1, apellido1.concat(" ").concat(apellido2));
+					declaracionSQLModificar.setString(2, dniString);
+					filasAfectadas = declaracionSQLModificar.executeUpdate();
+					util.condicionDeFilasModificar(filasAfectadas);
+					break;
+				case 3:
+					System.out.println("Dame el nuevo nombre del club al que pertenece el usario: ");
+					String nombreClubNuevo = inicioApp.sc.next();
+					queryModificar = "UPDATE usuarios SET nombre_del_club = ? WHERE dni = ?";
+					declaracionSQLModificar.setString(1, nombreClubNuevo);
+					declaracionSQLModificar.setString(2, dniString);
+					filasAfectadas = declaracionSQLModificar.executeUpdate();
+					util.condicionDeFilasModificar(filasAfectadas);
+					break;
+				case 4:
+					System.out.println("Dame el nuevo email para el usario: ");
+					String emailNuevo = inicioApp.sc.next();
+					queryModificar = "UPDATE usuarios SET email_usu = ? WHERE dni = ?";
+					declaracionSQLModificar.setString(1, emailNuevo);
+					declaracionSQLModificar.setString(2, dniString);
+					filasAfectadas = declaracionSQLModificar.executeUpdate();
+					util.condicionDeFilasModificar(filasAfectadas);
+					break;
+				case 5:
+					System.out.println("Dame la nueva contraseña para el usario: ");
+					String contraString = inicioApp.sc.next();
+					String codificada = util.encriptacion(contraString);
+					queryModificar = "UPDATE usuarios SET contrasenia_usu = ? WHERE dni = ?";
+					declaracionSQLModificar.setString(1, codificada);
+					declaracionSQLModificar.setString(2, dniString);
+					filasAfectadas = declaracionSQLModificar.executeUpdate();
+					util.condicionDeFilasModificar(filasAfectadas);
+					break;
+				default:
+					System.err.println("No has elegido ninguna opcion");
+					break;
+				}
 			} else {
 				System.err.println("No hay ningun usuario con este DNI.");
 			}

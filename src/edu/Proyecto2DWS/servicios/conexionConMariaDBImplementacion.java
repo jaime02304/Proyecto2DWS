@@ -22,7 +22,7 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 	@Override
 	public Connection generaConexion() {
 		// Cambiar la ruta
-		String fichero = "D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
+		String fichero = "C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\respuestaConexion.txt";
 		LocalDateTime fechaInstante = LocalDateTime.now();
 
 		Connection conexion = null;
@@ -94,7 +94,7 @@ public class conexionConMariaDBImplementacion implements conexionInterfaz {
 			// Aqui se coge los dato del fichero de propiedades
 			// cambiar la ruta
 			propiedades.load(new FileInputStream(
-					"D:\\ProyectosDWS\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
+					"C:\\Users\\jpribio\\DesarrolloWebServicio\\Proyecto2DWS\\src\\edu\\Proyecto2DWS\\util\\datos.properties"));
 
 			// aqui se coge las variables y se le asigna los datos que se encuentran en el
 			// fichero de propiedades
